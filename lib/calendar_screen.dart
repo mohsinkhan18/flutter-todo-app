@@ -33,10 +33,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff1253AA),
-        title: Text("Manage Your Time",style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),
+        title: Text(
+          "Manage Your Time",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
-      body: Container(height: double.infinity,width: double.infinity,
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -46,7 +51,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         child: SingleChildScrollView(
           child: Column(
-            children: [Padding(padding: EdgeInsets.all(50)),
+            children: [
+              Padding(padding: EdgeInsets.all(50)),
               TableCalendar(
                 calendarStyle: const CalendarStyle(
                   defaultTextStyle: TextStyle(color: Colors.white),
@@ -76,14 +82,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Set task for ${DateFormat('d MMMM yyyy').format(todayvariable)}",style: TextStyle(fontSize: 17),),
+                        Text(
+                          "Set task for ${DateFormat('d MMMM yyyy').format(todayvariable)}",
+                          style: TextStyle(fontSize: 17),
+                        ),
                         SizedBox(height: 8),
                         Row(
                           children: [
                             Expanded(
                               child: SizedBox(
                                 height: 45,
-                               // width: 230,
+                                // width: 230,
                                 child: TextField(
                                   style: TextStyle(color: Colors.white),
                                   controller: task,
@@ -105,30 +114,62 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               height: 45,
                               //width: 130,
                               child: ElevatedButton(
-                                  onPressed:(){
-                                    setState(() async {
-                                      try {
-                                        var documentsId = FirebaseFirestore.instance.collection("user").doc().id;
-                                        String? userId=FirebaseAuth.instance.currentUser?.uid;
-                                        if(userId==null){
-                                          return;
-                                        }
-                                        Todo inputtask = Todo(task: task.text, discription: discription.text, date: date.text, time: time.text, docId: documentsId, isDone: false);
-                                        await FirebaseFirestore.instance.collection("user").doc(userId).collection("task").doc(documentsId).set(inputtask.toJson());
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomScreen(initialIndex: 1)));
-                                      }catch(e){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text("Sending")));
-                                      };
-                                    });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xff0EA5E9),
-                                    foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                                onPressed: () {
+                                  setState(() async {
+                                    try {
+                                      var documentsId = FirebaseFirestore
+                                          .instance
+                                          .collection("user")
+                                          .doc()
+                                          .id;
+                                      String? userId = FirebaseAuth
+                                          .instance
+                                          .currentUser
+                                          ?.uid;
+                                      if (userId == null) {
+                                        return;
+                                      }
+                                      Todo inputtask = Todo(
+                                        task: task.text,
+                                        discription: discription.text,
+                                        date: date.text,
+                                        time: time.text,
+                                        docId: documentsId,
+                                        isDone: false,
+                                      );
+                                      await FirebaseFirestore.instance
+                                          .collection("user")
+                                          .doc(userId)
+                                          .collection("task")
+                                          .doc(documentsId)
+                                          .set(inputtask.toJson());
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              BottomScreen(initialIndex: 1),
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(content: Text("Sending")),
+                                      );
+                                    }
+                                    ;
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xff0EA5E9),
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(3),
                                   ),
-                                  child: Text("Submit")),
-                            )
+                                ),
+                                child: Text("Submit"),
+                              ),
+                            ),
                           ],
                         ),
                       ],

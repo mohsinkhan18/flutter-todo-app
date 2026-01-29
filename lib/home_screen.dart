@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/provider/provider_class.dart';
 import 'package:to_do_app/task_detail.dart';
 
 import 'model_classes/model_class.dart';
@@ -21,26 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchUserProfile();
-  }
-
-  Future<void> fetchUserProfile() async {
-    if (user == null) return;
-    try {
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection("user")
-          .doc(user!.uid)
-          .get();
-
-      if (userDoc.exists) {
-        setState(() {
-          profileImageUrl = userDoc.get('profile_url');
-          userName = userDoc.data().toString().contains('name') ? userDoc.get('name') : null;
-        });
-      }
-    } catch (e) {
-      debugPrint("Error fetching profile");
-    }
+    Future.microtask((){
+      final provider = context.read<ProviderClass>();
+      provider.getTask();
+      provider.fetchUserProfile();
+    });
+   // fetchUserProfile();
   }
   @override
   Widget build(BuildContext context) {
@@ -58,61 +45,47 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SingleChildScrollView(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start,
               children: [ SizedBox(height: 60),
-                    Row(
-                      children: [
-                        CircleAvatar(radius: 40,
-                          backgroundImage: profileImageUrl != null
-                              ? NetworkImage(profileImageUrl!)
-                              : null,
-                            child: profileImageUrl == null
-                                ? const Icon(Icons.person, size: 30, color: Colors.white)
-                                : null,
-                        ),
-                        SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    Consumer<ProviderClass>(builder: (context, provider,child) {   //consumer
+                        if (provider.isProfileLoading) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return Row(
                           children: [
-                            Text(FirebaseAuth.instance.currentUser!.displayName.toString(),
-                              style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold,),
+                            CircleAvatar(radius: 40,
+                              backgroundImage: provider.profileImageUrl != null
+                                  ? NetworkImage(provider.profileImageUrl!)
+                                  : null,
+                              child: provider.profileImageUrl == null
+                                  ? const Icon(
+                                  Icons.person, size: 30, color: Colors.white)
+                                  : null,
                             ),
-                            Text(FirebaseAuth.instance.currentUser!.email.toString(),
-                              style: TextStyle(color: Colors.white,fontSize: screenWidth * 0.044,),
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(provider.userName??"user name",
+                                  style: TextStyle(color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,),
+                                ),
+                                Text(provider.userEmail??"email@gmail.com",
+                                  style: TextStyle(color: Colors.white,
+                                    fontSize: screenWidth * 0.044,),
+                                ),
+                              ],
                             ),
                           ],
-                        ),
-                      ],
-                    ),
-                //     SizedBox(height: 20),
-                //     Text("Group Tasks",style: TextStyle(fontSize: 20,color: Colors.white),
-                //     ),
-                // SizedBox(height: 20),
-                // Row(
-                //   children: [
-                //     SizedBox(height: 106,width: 160,
-                //       child: Card(color: Colors.white,
-                //       ),
-                //     ),
-                //     SizedBox(width: 30),
-                //     SizedBox(height: 106,width: 160,
-                //       child: Card(color: Colors.white,
-                //       ),
-                //     ),
-                //   ],
-                // ),
+                        );
+                      }),
                 SizedBox(height: 20),
-                StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance.collection("user").doc(FirebaseAuth.instance.currentUser?.uid).collection("task").snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
+                Consumer<ProviderClass>(
+               // StreamBuilder<QuerySnapshot>(
+                  //stream: FirebaseFirestore.instance.collection("user").doc(FirebaseAuth.instance.currentUser?.uid).collection("task").snapshots(),
+                  builder: (context, provider,child) {
+                    if (provider.isLoading) {
                       return Center(child: CircularProgressIndicator());
                     }
-                    if (snapshot.hasError) {
-                      return Center(child: Text("something Error"));
-                    }
-                    List<Todo> allTasks = snapshot.data!.docs.map((doc) => Todo.fromJson(doc.data() as Map<String, dynamic>)).toList();
-                    List<Todo> incompleteTasks = allTasks.where((task) => task.isDone == false).toList();
-                    List<Todo> completedTasks = allTasks.where((task) => task.isDone == true).toList();
-
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -121,9 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: incompleteTasks.length,
+                          itemCount:provider.incompleteTasks.length,
                           itemBuilder: (context, index) {
-                            Todo inputtask = incompleteTasks[index];
+                            Todo inputtask = provider.incompleteTasks[index];
                             return Card(
                               child: ListTile(
                                 leading: inputtask.isPin==true?Icon(Icons.push_pin,color: Colors.red,):null,
@@ -151,9 +124,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: completedTasks.length,
+                          itemCount: provider.completedTasks.length,
                           itemBuilder: (context, index) {
-                            Todo inputtask = completedTasks[index];
+                            Todo inputtask = provider.completedTasks[index];
                             return Card(
                               child: ListTile(
                                 leading: inputtask.isPin==true?Icon(Icons.push_pin,color: Colors.red):null,
@@ -189,4 +162,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
+} 

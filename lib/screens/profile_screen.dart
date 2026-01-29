@@ -16,7 +16,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   File? _imageFile;
   String? dpimage;
   bool isUploading = false;
@@ -32,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future pickImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
 
-    final XFile? image = await picker.pickImage(source: source );
+    final XFile? image = await picker.pickImage(source: source);
 
     if (image != null) {
       setState(() {
@@ -60,22 +59,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-
-  // Future uploadImage() async {
-  //   if (_imageFile == null) return;
-  //   final uid=FirebaseAuth.instance.currentUser!.uid;
-  //   final fileName = DateTime.now().microsecondsSinceEpoch.toString();
-  //   final path = 'upload/$fileName';
-  //   await Supabase.instance.client.storage.from('images').upload(path, _imageFile!);
-  //   var imageUrl = Supabase.instance.client.storage.from('images').getPublicUrl(path);
-  //   await FirebaseFirestore.instance.collection('user').doc(uid).update({
-  //     'profile_url': imageUrl,});
-  //   setState(() {
-  //     dpimage= imageUrl;
-  //     _imageFile=null;
-  //   });
-  //
-  // }
   Future<void> uploadImage() async {
     if (_imageFile == null) return;
     setState(() => isUploading = true);
@@ -85,8 +68,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final fileName = DateTime.now().microsecondsSinceEpoch.toString();
       final path = 'upload/$fileName';
 
-      await Supabase.instance.client.storage.from('images').upload(path, _imageFile!);
-      var imageUrl = Supabase.instance.client.storage.from('images').getPublicUrl(path);
+      await Supabase.instance.client.storage
+          .from('images')
+          .upload(path, _imageFile!);
+      var imageUrl = Supabase.instance.client.storage
+          .from('images')
+          .getPublicUrl(path);
 
       await FirebaseFirestore.instance.collection('user').doc(uid).update({
         'profile_url': imageUrl,
@@ -97,9 +84,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _imageFile = null;
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Profile updated successfully!")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Profile updated successfully!")),
+      );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Upload failed")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Upload failed")));
     } finally {
       setState(() => isUploading = false);
     }
@@ -145,7 +136,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (dpimage != null || _imageFile != null)
               ListTile(
                 leading: const Icon(Icons.delete, color: Colors.red),
-                title: const Text('Delete Photo', style: TextStyle(color: Colors.red)),
+                title: const Text(
+                  'Delete Photo',
+                  style: TextStyle(color: Colors.red),
+                ),
                 onTap: deletePhoto,
               ),
           ],
@@ -186,13 +180,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff1253AA),
-        leading: IconButton(onPressed: (){
-          Navigator.pop(context);
-        },
-            icon:Icon(Icons.arrow_back_ios,color: Color(0xff63D9F3)
-            )
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Color(0xff63D9F3)),
         ),
-        title: Text("Profile",style: TextStyle(color:Colors.white, fontWeight: FontWeight.bold)),
+        title: Text(
+          "Profile",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Container(
@@ -209,62 +206,94 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: [
               SizedBox(height: 20),
-                  CircleAvatar(
-                    radius: 70,
-                    backgroundImage: _imageFile != null
-                        ? FileImage(_imageFile!) as ImageProvider
-                        : (dpimage != null
-                        ? NetworkImage(dpimage!) as ImageProvider
-                        : null),
-                    child: (_imageFile == null && dpimage == null)
-                        ? Icon(Icons.person, size: 100, color: Colors.grey)
-                        : null,
-                  ),
+              CircleAvatar(
+                radius: 70,
+                backgroundImage: _imageFile != null
+                    ? FileImage(_imageFile!) as ImageProvider
+                    : (dpimage != null
+                          ? NetworkImage(dpimage!) as ImageProvider
+                          : null),
+                child: (_imageFile == null && dpimage == null)
+                    ? Icon(Icons.person, size: 100, color: Colors.grey)
+                    : null,
+              ),
               SizedBox(height: 10),
               GestureDetector(
                 onTap: showEditOptions,
-                child: Text("Edit", style: TextStyle(color: Color(0xff63D9F3), fontSize: 18, fontWeight: FontWeight.w500,
+                child: Text(
+                  "Edit",
+                  style: TextStyle(
+                    color: Color(0xff63D9F3),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                     decoration: TextDecoration.underline,
                   ),
                 ),
               ),
-             SizedBox(height: 60),
-             ListTile(
-               leading: Icon(Icons.person_pin,size: 40,color: Colors.white),
-               title: Text("Name",style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
-               subtitle: Text(FirebaseAuth.instance.currentUser!.displayName.toString(),
-                 style: TextStyle(color: Colors.white,),
-               ),
-             ),
+              SizedBox(height: 60),
+              ListTile(
+                leading: Icon(Icons.person_pin, size: 40, color: Colors.white),
+                title: Text(
+                  "Name",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  FirebaseAuth.instance.currentUser!.displayName.toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
               SizedBox(height: 20),
               ListTile(
-                leading: Icon(Icons.email,size: 40,color: Colors.white),
-                title: Text("Email",style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.bold),),
-                subtitle: Text(FirebaseAuth.instance.currentUser!.email.toString(),
-                  style: TextStyle(color: Colors.white,),
+                leading: Icon(Icons.email, size: 40, color: Colors.white),
+                title: Text(
+                  "Email",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  FirebaseAuth.instance.currentUser!.email.toString(),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
               SizedBox(height: 30),
-              SizedBox(width: 260,
+              SizedBox(
+                width: 260,
                 height: 62,
                 child: OutlinedButton.icon(
-                  onPressed:(){
+                  onPressed: () {
                     FirebaseAuth.instance.signOut();
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SignInScreen()));
+                      MaterialPageRoute(builder: (context) => SignInScreen()),
+                    );
                   },
-                  icon:  Icon(Icons.logout_outlined, color: Colors.red, size: 30,),
-                  label: Text("Logout", style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.w500,
+                  icon: Icon(
+                    Icons.logout_outlined,
+                    color: Colors.red,
+                    size: 30,
                   ),
+                  label: Text(
+                    "Logout",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  style:OutlinedButton.styleFrom(backgroundColor: Colors.white),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                  ),
                 ),
-              )
+              ),
             ],
-             // SizedBox(height: 20),
-              //ElevatedButton(onPressed: uploadImage,child: Text("Upload"),),
           ),
-        )
+        ),
       ),
     );
   }

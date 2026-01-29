@@ -17,13 +17,18 @@ class _SettingScreenState extends State<SettingScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xff1253AA),
         leading: IconButton(
-            onPressed: (){},
-            icon:Icon(Icons.arrow_back_ios,color: Color(0xff63D9F3))),
-        title: Text("Settings",style: TextStyle(color:Colors.white, fontWeight: FontWeight.bold),),
+          onPressed: () {},
+          icon: Icon(Icons.arrow_back_ios, color: Color(0xff63D9F3)),
+        ),
+        title: Text(
+          "Settings",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Container(
-        height: double.infinity,width: double.infinity,
+        height: double.infinity,
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -35,110 +40,111 @@ class _SettingScreenState extends State<SettingScreen> {
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
-              children: [Padding(padding: EdgeInsets.all(80)),
+              children: [
+                Padding(padding: EdgeInsets.all(80)),
                 Row(
                   children: [
-                    Icon(Icons.person_pin,color: Colors.white,size: 30),
-                    // Container(
-                    //   height: 50,
-                    //   width: 50,
-                    //   decoration: BoxDecoration(
-                    //     color: kDefaultIconLightColor,
-                    //     borderRadius: BorderRadius.circular(15),
-                    //   ),
-                    //   child: Icon(Icons.person)
-                    // ),
+                    Icon(Icons.person_pin, color: Colors.white, size: 30),
                     SizedBox(width: 15),
-                    Text("Profile",
+                    Text(
+                      "Profile",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20
+                        fontSize: 20,
                       ),
                     ),
                     Spacer(),
                     IconButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(),
+                          ),
+                        );
                       },
-                      icon: Icon(Icons.arrow_forward_ios,color: Color(0xff86DAED)),
-                    )
+                      icon: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Color(0xff86DAED),
+                      ),
+                    ),
                   ],
                 ),
                 Divider(color: Colors.blueGrey),
                 Row(
                   children: [
-                    Icon(Icons.messenger_rounded,color: Colors.white,size: 30),
+                    Icon(
+                      Icons.messenger_rounded,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                     SizedBox(width: 15),
-                    Text("Conversations",
+                    Text(
+                      "Conversations",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
                     Spacer(),
                     IconButton(
-                      onPressed: (){},
-                      icon: Icon(Icons.arrow_forward_ios,color: Color(0xff86DAED)),
-                    )
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Color(0xff86DAED),
+                      ),
+                    ),
                   ],
                 ),
                 Divider(color: Colors.blueGrey),
                 Row(
                   children: [
-                    Icon(Icons.lightbulb_circle,color: Colors.white,size: 30),
+                    Icon(Icons.lightbulb_circle, color: Colors.white, size: 30),
                     SizedBox(width: 15),
-                    Text("Projects",
+                    Text(
+                      "Projects",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
                     Spacer(),
                     IconButton(
-                      onPressed: (){},
-                      icon: Icon(Icons.arrow_forward_ios,color: Color(0xff86DAED)),
-                    )
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Color(0xff86DAED),
+                      ),
+                    ),
                   ],
                 ),
                 Divider(color: Colors.blueGrey),
                 Row(
                   children: [
-                    Icon(Icons.library_books,color: Colors.white,size: 30),
+                    Icon(Icons.library_books, color: Colors.white, size: 30),
                     SizedBox(width: 15),
-                    Text("Terms and Policies",
+                    Text(
+                      "Terms and Policies",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
                     Spacer(),
                     IconButton(
-                      onPressed: (){},
-                      icon: Icon(Icons.arrow_forward_ios,color: Color(0xff86DAED)),
-                    )
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Color(0xff86DAED),
+                      ),
+                    ),
                   ],
                 ),
                 Divider(color: Colors.blueGrey),
-                // SizedBox(height: 80),
-                // SizedBox(width: 260,
-                //   height: 62,
-                //   child: OutlinedButton.icon(
-                //       onPressed:(){
-                //         FirebaseAuth.instance.signOut();
-                //         Navigator.of(context).push(
-                //             MaterialPageRoute(builder: (context) => SignInScreen()));
-                //       },
-                //       icon:  Icon(Icons.logout_outlined, color: Colors.red, size: 30,),
-                //     label: Text("Logout", style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.w500,
-                //       ),
-                //     ),
-                //     style:OutlinedButton.styleFrom(backgroundColor: Colors.white),
-                //   ),
-                // )
               ],
             ),
           ),

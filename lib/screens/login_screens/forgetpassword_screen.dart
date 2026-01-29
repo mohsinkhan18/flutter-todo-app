@@ -19,10 +19,15 @@ class _ForgetpasswordScreenState extends State<ForgetpasswordScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff1253AA),
-        leading: IconButton(onPressed: (){
-          Navigator.push(context,MaterialPageRoute(builder: (context)=>SignInScreen()));
-        },
-            icon: Icon(Icons.arrow_back, color: Colors.white))
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignInScreen()),
+            );
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
       ),
       body: Container(
         height: double.infinity,
@@ -44,11 +49,20 @@ class _ForgetpasswordScreenState extends State<ForgetpasswordScreen> {
                   SizedBox(height: 80),
                   Padding(
                     padding: const EdgeInsets.only(right: 140.0),
-                    child: Text('Forget Password',
-                      style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 28),),
+                    child: Text(
+                      'Forget Password',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                      ),
+                    ),
                   ),
                   SizedBox(height: 15),
-                  Text('Enter your email to recive an email to reset your password',style: TextStyle(color: Colors.white,fontSize: 20),),
+                  Text(
+                    'Enter your email to recive an email to reset your password',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
                   SizedBox(height: 15),
                   TextFormField(
                     controller: email,
@@ -73,35 +87,58 @@ class _ForgetpasswordScreenState extends State<ForgetpasswordScreen> {
                   ),
                   SizedBox(height: 25),
                   SizedBox(
-                    height: 52
-                    ,width: double.infinity,
+                    height: 52,
+                    width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: isLoading ? null : ()  async {
-                        if (_formKey.currentState!.validate()) {
-                            setState(() => isLoading = true);
-                            try{
-                        await auth.sendPasswordResetEmail(email: email.text.trim());
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Password reset email was sent')),);
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInScreen()));
-                            } catch (e) {ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-                            }setState(() => isLoading = false);
-                          }
-
-                        },
+                      onPressed: isLoading
+                          ? null
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() => isLoading = true);
+                                try {
+                                  await auth.sendPasswordResetEmail(
+                                    email: email.text.trim(),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Password reset email was sent',
+                                      ),
+                                    ),
+                                  );
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignInScreen(),
+                                    ),
+                                  );
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(e.toString())),
+                                  );
+                                }
+                                setState(() => isLoading = false);
+                              }
+                            },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: Color(0xff0EA5E9),
-                        textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        textStyle: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: isLoading? CircularProgressIndicator(
-                        color: Colors.white,
-                      ):Text('Forget Password',style: TextStyle(fontWeight: FontWeight.bold),),
+                      child: isLoading
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              'Forget Password',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                     ),
                   ),
-
                 ],
               ),
             ),

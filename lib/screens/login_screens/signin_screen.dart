@@ -97,21 +97,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 45,
                   width: double.infinity,
                   child: TextButton(
-                      // onPressed: ()async{
-                      //       if(_formKey.currentState!.validate()){}
-                      //       try{
-                      //         UserCredential login= await auth.signInWithEmailAndPassword(email: email.text, password: password.text);
-                      //         if(login.user!.emailVerified){
-                      //           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BottomScreen()));
-                      //         }
-                      //         else{
-                      //           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("First verify your email")));
-                      //         }
-                      //        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomScreen()),);
-                      //       }catch(e){
-                      //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-                      //       }
-                      //     },
                       onPressed: isLoading ? null : () async {
                         if (!_formKey.currentState!.validate()) return;
                         setState(() => isLoading = true);

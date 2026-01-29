@@ -28,16 +28,7 @@ class _BottomScreenState extends State<BottomScreen> {
       //widgetList[myIndex],
 
       bottomNavigationBar:
-        // decoration: BoxDecoration(
-        //   // color: Color(0xff05243E),
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: [Color(0xff1253AA), Color(0xff05243E)],
-        //   ),
-        // ),
       BottomNavigationBar(backgroundColor: Color(0xff05243E),
-        //type: BottomNavigationBarType.fixed,
         currentIndex: myIndex,
         onTap: (index){
           setState(() {

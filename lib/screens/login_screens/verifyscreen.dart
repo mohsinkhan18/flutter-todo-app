@@ -56,7 +56,11 @@ class _VerifyscreenState extends State<Verifyscreen> {
                   children: [
                     Center(
                       child: Text(
-                        'DO IT', style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold,
+                        'DO IT',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -73,49 +77,65 @@ class _VerifyscreenState extends State<Verifyscreen> {
                         onPressed: isLoading
                             ? null
                             : () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          final user = FirebaseAuth.instance.currentUser;
-                          if (user!= null) {
-                            try {
-                              await user.sendEmailVerification();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Verification email sent Check your inbox."),
-                                ),
-                              );
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInScreen()));
-                            } catch (e) {
-                              if (mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Something went wrong")),
-                                );
-                              }
-                            } finally {
-                              if (mounted) {
                                 setState(() {
-                                  isLoading = false;
+                                  isLoading = true;
                                 });
-                              }
-                            }
-                          }
-                        },
+                                final user = FirebaseAuth.instance.currentUser;
+                                if (user != null) {
+                                  try {
+                                    await user.sendEmailVerification();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          "Verification email sent Check your inbox.",
+                                        ),
+                                      ),
+                                    );
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SignInScreen(),
+                                      ),
+                                    );
+                                  } catch (e) {
+                                    if (mounted) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Something went wrong"),
+                                        ),
+                                      );
+                                    }
+                                  } finally {
+                                    if (mounted) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
+                                  }
+                                }
+                              },
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: Color(0xff0EA5E9),
-                          textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: isLoading ? SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          ),
-                        )
+                        child: isLoading
+                            ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
                             : Text('Verify'),
                       ),
                     ),
