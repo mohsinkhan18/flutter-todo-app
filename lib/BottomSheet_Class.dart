@@ -229,32 +229,6 @@ class _BottomSheetClassState extends State<BottomSheetClass> {
 
                                   });
                                 }
-                              // onPressed: () async {
-                              //   if (_formKey.currentState!.validate()) {
-                              //     var documentsId = FirebaseFirestore.instance
-                              //         .collection("Task")
-                              //         .doc()
-                              //         .id;
-                              //     // Map<String, dynamic> data = {
-                              //     //   "task": task.text,
-                              //     //   "discription": discription.text,
-                              //     //   "date": date.text,
-                              //     //   "time": time.text,
-                              //     // };
-                              //     Todo inputtask = Todo(
-                              //       task: task.text,
-                              //       discription: discription.text,
-                              //       date: date.text,
-                              //       time: time.text,
-                              //       docId: documentsId,
-                              //       isDone: false,
-                              //     );
-                              //     await FirebaseFirestore.instance
-                              //         .collection("Task")
-                              //         .doc(documentsId)
-                              //         .set(inputtask.toJson());
-                              //   }
-                              // },
                             ),
                           ),
                         ),

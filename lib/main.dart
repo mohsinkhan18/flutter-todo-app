@@ -4,6 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:to_do_app/screens/splash_screen.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 
 void main() async{
   await dotenv.load(fileName: ".env");
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(

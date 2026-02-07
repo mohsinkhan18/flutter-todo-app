@@ -6,7 +6,7 @@ import 'package:to_do_app/task_screen.dart';
 
 class BottomScreen extends StatefulWidget {
   final int initialIndex;
-  const BottomScreen({super.key,this.initialIndex=0});
+  const BottomScreen({super.key, this.initialIndex = 0});
 
   @override
   State<BottomScreen> createState() => _BottomScreenState();
@@ -20,26 +20,22 @@ class _BottomScreenState extends State<BottomScreen> {
     myIndex = widget.initialIndex;
   }
 
-  List<Widget> widgetList = [ HomeScreen(),TaskScreen(), CalendarScreen(), SettingScreen(),];
+  List<Widget> widgetList = [
+    HomeScreen(),
+    TaskScreen(),
+    CalendarScreen(),
+    SettingScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: myIndex,children: widgetList),
-      //widgetList[myIndex],
+      body: IndexedStack(index: myIndex, children: widgetList),
 
-      bottomNavigationBar:
-        // decoration: BoxDecoration(
-        //   // color: Color(0xff05243E),
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: [Color(0xff1253AA), Color(0xff05243E)],
-        //   ),
-        // ),
-      BottomNavigationBar(backgroundColor: Color(0xff05243E),
-        //type: BottomNavigationBarType.fixed,
+      //widgetList[myIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xff05243E),
         currentIndex: myIndex,
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             myIndex = index;
           });

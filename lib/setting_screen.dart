@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/screens/login_screens/signin_screen.dart';
 import 'package:to_do_app/screens/profile_screen.dart';
+import 'package:get/get.dart';
+
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -39,15 +41,6 @@ class _SettingScreenState extends State<SettingScreen> {
                 Row(
                   children: [
                     Icon(Icons.person_pin,color: Colors.white,size: 30),
-                    // Container(
-                    //   height: 50,
-                    //   width: 50,
-                    //   decoration: BoxDecoration(
-                    //     color: kDefaultIconLightColor,
-                    //     borderRadius: BorderRadius.circular(15),
-                    //   ),
-                    //   child: Icon(Icons.person)
-                    // ),
                     SizedBox(width: 15),
                     Text("Profile",
                       style: TextStyle(
@@ -59,7 +52,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     Spacer(),
                     IconButton(
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
+                        Get.to(ProfileScreen());
                       },
                       icon: Icon(Icons.arrow_forward_ios,color: Color(0xff86DAED)),
                     )
@@ -123,22 +116,6 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 Divider(color: Colors.blueGrey),
-                // SizedBox(height: 80),
-                // SizedBox(width: 260,
-                //   height: 62,
-                //   child: OutlinedButton.icon(
-                //       onPressed:(){
-                //         FirebaseAuth.instance.signOut();
-                //         Navigator.of(context).push(
-                //             MaterialPageRoute(builder: (context) => SignInScreen()));
-                //       },
-                //       icon:  Icon(Icons.logout_outlined, color: Colors.red, size: 30,),
-                //     label: Text("Logout", style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.w500,
-                //       ),
-                //     ),
-                //     style:OutlinedButton.styleFrom(backgroundColor: Colors.white),
-                //   ),
-                // )
               ],
             ),
           ),
